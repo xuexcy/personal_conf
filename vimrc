@@ -435,16 +435,6 @@ function InsertPythonComment()
     call setline('.', '#!/usr/bin/env python')
     normal o
     call setline('.', '# -*- coding:utf-8 -*-')
-	normal o
-	call setline('.', '########################################################################')
-	normal o
-	call setline('.', '#')
-	normal o
-	call setline('.', '# Copyright (c) 2018 Baidu.com, Inc. All Rights Reserved')
-	normal o
-	call setline('.', '#')
-	normal o
-	call setline('.', '########################################################################')
     normal o
     call setline('.', '"""')
     normal o
@@ -468,4 +458,4 @@ endfunc
 au FileType python :%call InsertCommentWhenOpen()
 au FileType python map <F4> :call InsertPythonComment()<cr>
 let g:python_author = 'xuechengyun'
-let g:python_email  = 'xuechengyun@baidu.com' 
+let g:python_email  = 'xuechengyunxue@gmail.com' 
