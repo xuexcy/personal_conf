@@ -459,3 +459,4 @@ au FileType python :%call InsertCommentWhenOpen()
 au FileType python map <F4> :call InsertPythonComment()<cr>
 let g:python_author = 'xuechengyun'
 let g:python_email  = 'xuechengyunxue@gmail.com' 
+syntax enable
