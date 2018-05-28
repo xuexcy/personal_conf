@@ -1,18 +1,21 @@
 #!/bin/bash
 
+export PS1="[\t \u@\H \W]\$ "
 alias tailf="tail -f"
 alias l="ls"
 alias ch="cd ~"
 alias ll="ls -l"
 alias vi="vim"
 alias v="vim"
-alias tmux="tmux -2"
+alias tmux="tmux -2 -L xcy"
 alias t="tmux"
 alias ta="tmux attach-session -t"
 alias tn="tmux new -s"
 alias wcl="wc -l"
 
 export TERM=xterm-256color
+export TMOUT=0
+export LANG=zh_CN.UTF-8
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
 
 getftp(){
@@ -23,17 +26,17 @@ getftp(){
 }
 
 function rm () {
-  local file_path
-  for file_path in "$@"; do
+  local path
+  for path in "$@"; do
     # ignore any arguments
-    if [[ "$file_path" = -* ]]; then :
+    if [[ "$path" = -* ]]; then :
     else
-      local dst=${file_path##*/}
+      local dst=${path##*/}
       # append the time if necessary
       while [ -e ~/.Trash/"$dst" ]; do
         dst="$dst "$(date +%H-%M-%S)
       done
-      mv "$file_path" ~/.Trash/"$dst"
+      mv "$path" ~/.Trash/"$dst"
     fi
   done
 }
