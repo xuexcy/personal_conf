@@ -1,4 +1,6 @@
 let &termencoding=&encoding
+set encoding=utf-8
+set termencoding=utf-8
 set fileencodings=utf-8,gbk,ucs-bom,cp936
 
 set nocompatible              " be iMproved, required
@@ -17,15 +19,14 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'tomasr/molokai'
 Plugin 'colepeters/spacemacs-theme.vim'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'edkolev/tmuxline.vim'
 
 " Edit
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'Python-mode-klen'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'Shougo/neocomplete.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdonw'
-"Plugin 'heavenshell/vim-pydocstring'
+Plugin 'heavenshell/vim-pydocstring'
 let g:neocomplete#enable_at_startup = 1
 
 " Browsing
@@ -34,7 +35,6 @@ Plugin 'majutsushi/tagbar', { 'on': 'TagbarToggle'      }
 Plugin 'derekwyatt/vim-fswitch', { 'for': ['c', 'cpp', 'objc'] }
 Plugin 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp', 'objc'] }
 Plugin 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plugin 'suan/vim-instant-markdown', { 'for': 'markdown' }
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 
@@ -45,6 +45,8 @@ Plugin 'fholgado/minibufexpl.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
+"Do all your insert-mode completion with Tab.
+Plugin 'ervandew/supertab'
 
 " Plugin 'Valloric/YouCompleteMe'
 " All of your Plugins must be added before the following line
@@ -293,14 +295,6 @@ let NERDTreeShowHidden=0
 let NERDTreeMinimalUI=1
 let NERDTreeAutoDeleteBuffer=1
 
-" ----------------------------------------------------------------------------
-" vim-instant-markdown
-" ----------------------------------------------------------------------------
-
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-
-let g:instant_markdown_slow = 1
-let g:instant_markdown_autostart = 0
 
 nnoremap <Leader>md :InstantMarkdownPreview<CR>
 
@@ -435,6 +429,16 @@ function InsertPythonComment()
     call setline('.', '#!/usr/bin/env python')
     normal o
     call setline('.', '# -*- coding:utf-8 -*-')
+	normal o
+	call setline('.', '########################################################################')
+	normal o
+	call setline('.', '#')
+	normal o
+	call setline('.', '# Copyright (c) 2018 Baidu.com, Inc. All Rights Reserved')
+	normal o
+	call setline('.', '#')
+	normal o
+	call setline('.', '########################################################################')
     normal o
     call setline('.', '"""')
     normal o
@@ -448,7 +452,32 @@ function InsertPythonComment()
     normal o
     call setline('.', '"""')
     normal o
-    call cursor(7, 17)
+	call setline('.', '')
+	normal o
+	call setline('.', 'import sys')
+	normal o
+	call setline('.', 'import logging')
+	normal o
+	call setline('.', '')
+	normal o
+	call setline('.', "log_format = '''[%(levelname)s] [%(asctime)s] [%(threadName)s] [%(name)s] '''")
+	normal o
+	call setline('.', "log_format += '''[%(filename)s:%(funcName)s:%(lineno)d]: %(message)s'''")
+	normal o
+	call setline('.', 'logging.basicConfig(')
+	normal o
+	call setline('.', '    stream=sys.stderr,')
+	normal o
+	call setline('.', '    level=logging.INFO,')
+	normal o
+	call setline('.', "    format=log_format")
+	normal o
+	call setline('.', ')')
+	normal o
+	call setline('.', '')
+	normal o
+	call setline('.', '')
+    call cursor(27, 0)
 endfunction
 function InsertCommentWhenOpen()
     if a:lastline == 1 && !getline('.')
@@ -459,4 +488,21 @@ au FileType python :%call InsertCommentWhenOpen()
 au FileType python map <F4> :call InsertPythonComment()<cr>
 let g:python_author = 'xuechengyun'
 let g:python_email  = 'xuechengyunxue@gmail.com' 
-syntax enable
+set ttyfast
+set lazyredraw
+au FileType go set nocursorcolumn
+au FileType go syntax sync minlines=128
+au FileType go set synmaxcol=128
+au FileType go set re=1
+
+" jedi
+"let g:jedi#goto_command = "<leader>d"
+"let g:jedi#goto_assignments_command = "<leader>g"
+"let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "K"
+"let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<leader><leader>"
+let g:jedi#rename_command = "<leader>r"
+let g:jedi#popup_on_dot = 0
+let g:SuperTabDefaultCompletionType="context"
+let g:SuperTabDefaultCompletionType="<C-X><C-O>"
