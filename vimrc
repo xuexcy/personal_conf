@@ -176,10 +176,12 @@ endfunction
 " <F8> | Color scheme selector
 " ----------------------------------------------------------------------------
 "  
-set background=dark
 
+set background=dark
+set nu
+syntax enable
 let g:molokai_original = 1
-colorschem molokai
+colorscheme molokai
 
 function! s:rotate_colors()
   if !exists('s:colors')
@@ -435,11 +437,7 @@ function InsertPythonComment()
 	normal o
 	call setline('.', '#')
 	normal o
-<<<<<<< HEAD
 	call setline('.', '# Copyright (c) 2019 Baidu.com, Inc. All Rights Reserved')
-=======
-	call setline('.', '# Copyright (c) 2018 Baidu.com, Inc. All Rights Reserved')
->>>>>>> 790d479a811863b791658c23099762a33aa94d20
 	normal o
 	call setline('.', '#')
 	normal o
@@ -459,7 +457,6 @@ function InsertPythonComment()
     normal o
 	call setline('.', '')
 	normal o
-<<<<<<< HEAD
 	call setline('.', 'from __future__ import unicode_literals')
 	normal o
 	call setline('.', 'from __future__ import print_function')
@@ -468,25 +465,15 @@ function InsertPythonComment()
 	normal o
 	call setline('.', 'import os')
 	normal o
-=======
-	call setline('.', 'import sys')
-	normal o
->>>>>>> 790d479a811863b791658c23099762a33aa94d20
 	call setline('.', 'import logging')
 	normal o
 	call setline('.', '')
 	normal o
-<<<<<<< HEAD
 	call setline('.', 'CUR_DIR = os.path.dirname(os.path.abspath(__file__))')
 	normal o
 	call setline('.', "LOG_FORMAT = '''[%(levelname)s] [%(asctime)s] [%(threadName)s] [%(name)s] '''")
 	normal o
 	call setline('.', "LOG_FORMAT += '''[%(filename)s:%(funcName)s:%(lineno)d]: %(message)s'''")
-=======
-	call setline('.', "log_format = '''[%(levelname)s] [%(asctime)s] [%(threadName)s] [%(name)s] '''")
-	normal o
-	call setline('.', "log_format += '''[%(filename)s:%(funcName)s:%(lineno)d]: %(message)s'''")
->>>>>>> 790d479a811863b791658c23099762a33aa94d20
 	normal o
 	call setline('.', 'logging.basicConfig(')
 	normal o
@@ -494,22 +481,14 @@ function InsertPythonComment()
 	normal o
 	call setline('.', '    level=logging.INFO,')
 	normal o
-<<<<<<< HEAD
 	call setline('.', "    format=LOG_FORMAT")
-=======
-	call setline('.', "    format=log_format")
->>>>>>> 790d479a811863b791658c23099762a33aa94d20
 	normal o
 	call setline('.', ')')
 	normal o
 	call setline('.', '')
 	normal o
 	call setline('.', '')
-<<<<<<< HEAD
     call cursor(30, 0)
-=======
-    call cursor(27, 0)
->>>>>>> 790d479a811863b791658c23099762a33aa94d20
 endfunction
 function InsertCommentWhenOpen()
     if a:lastline == 1 && !getline('.')
@@ -518,8 +497,7 @@ function InsertCommentWhenOpen()
 endfunc
 au FileType python :%call InsertCommentWhenOpen()
 let g:python_author = 'xuechengyun'
-<<<<<<< HEAD
-let g:python_email  = 'xuechengyun@baidu.com' 
+let g:python_email  = 'xuechengyunxue@gmail.com' 
 
 "shell 注释
 function InsertShellComment()
@@ -535,7 +513,7 @@ function InsertShellComment()
 	normal o
 	call setline('.', '#')
 	normal o
-	call setline('.', '# Copyright (c) 2019 Baidu.com, Inc. All Rights Reserved')
+	call setline('.', '# Copyright to Nobody. All Rights Reserved')
 	normal o
 	call setline('.', '#')
 	normal o
@@ -592,19 +570,10 @@ function InsertShellCommentWhenOpen()
 endfunc
 au FileType sh :%call InsertShellCommentWhenOpen()
 let g:python_author = 'xuechengyun'
-let g:python_email  = 'xuechengyun@baidu.com' 
+let g:python_email  = 'xuechengyunxue@gmail.com' 
 
 set ttyfast
 set lazyredraw
-=======
-let g:python_email  = 'xuechengyunxue@gmail.com' 
-set ttyfast
-set lazyredraw
-au FileType go set nocursorcolumn
-au FileType go syntax sync minlines=128
-au FileType go set synmaxcol=128
-au FileType go set re=1
->>>>>>> 790d479a811863b791658c23099762a33aa94d20
 
 " jedi
 "let g:jedi#goto_command = "<leader>d"
@@ -617,7 +586,6 @@ let g:jedi#rename_command = "<leader>r"
 let g:jedi#popup_on_dot = 0
 let g:SuperTabDefaultCompletionType="context"
 let g:SuperTabDefaultCompletionType="<C-X><C-O>"
-<<<<<<< HEAD
 nmap <silent> <C-_> <Plug>(pyd)
 set ttyfast
 set lazyredraw
@@ -638,5 +606,3 @@ nmap <silent> <C-_> <Plug>(pyd)
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
-=======
->>>>>>> 790d479a811863b791658c23099762a33aa94d20
