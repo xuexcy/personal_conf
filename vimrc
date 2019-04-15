@@ -15,44 +15,52 @@ call vundle#begin('~/.vim/bundle/Vundle.vim')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
 " Colors
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'tomasr/molokai'
-Plugin 'colepeters/spacemacs-theme.vim'
+Plugin 'altercation/vim-colors-solarized'
+" syntax highlighting
 Plugin 'sheerun/vim-polyglot'
 Plugin 'edkolev/tmuxline.vim'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
 " Edit
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'Python-mode-klen'
+Plugin 'python-mode/python-mode'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'heavenshell/vim-pydocstring'
+Plugin 'terryma/vim-multiple-cursors'
 let g:neocomplete#enable_at_startup = 1
 
 " Browsing
 Plugin 'Yggdroot/indentLine'
 Plugin 'majutsushi/tagbar', { 'on': 'TagbarToggle'      }
 Plugin 'derekwyatt/vim-fswitch', { 'for': ['c', 'cpp', 'objc'] }
-Plugin 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp', 'objc'] }
+" Plugin 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp', 'objc'] }
 Plugin 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'ggreer/the_silver_searcher'
+Plugin 'beyondgrep/ack2'
 
 " Lint
 Plugin 'w0rp/ale'
 
-Plugin 'fholgado/minibufexpl.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'dyng/ctrlsf.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'ctrlpvim/ctrlp.vim'
 "Do all your insert-mode completion with Tab.
 Plugin 'ervandew/supertab'
 
-" Plugin 'Valloric/YouCompleteMe'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+" 开启文件类型侦测
+filetype on
+" 根据侦测到的不同类型加载对应的插件
+filetype plugin on
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -67,136 +75,145 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 " Show the size of block one selected in visual mode
-set showcmd
 
-" Hide buffers
+" https://github.com/yangyangwithgnu/use_vim_as_ide
+
+" ------------------快捷键start----------------
+" 配置leader键
+let mapleader=";"
+" tagbar快捷键设置
+inoremap <F2> <esc>:TagbarToggle<cr>
+nnoremap <F2> :TagbarToggle<cr>
+" nerdtree快捷键设置
+inoremap <F3> <esc>:NERDTreeToggle<CR>
+nnoremap <F3> :NERDTreeToggle<CR>
+" undo, 历史编辑记录
+nnoremap <Leader>ud :GundoToggle<CR>
+
+" 关闭当前分割窗口
+nmap <Leader>q :q<CR>
+" 保存当前窗口内容
+nmap <Leader>w :w<CR>
+nnoremap <Leader>Q :q!<cr>
+
+" 跳转至右方的窗口
+nnoremap <Leader>lw <C-W>l
+" 跳转至左方的窗口
+nnoremap <Leader>hw <C-W>h
+" 跳转至上方的子窗口
+nnoremap <Leader>kw <C-W>k
+" 跳转至下方的子窗口
+nnoremap <Leader>jw <C-W>j
+nnoremap <tab>   <c-w>w
+nnoremap <S-tab> <c-w>W
+
+" 纵向分割窗口
+nnoremap <leader>vs :vsplit<CR>
+" 横向分割窗口
+nnoremap <leader>sp :split<CR>
+
+" abc --> "abc"
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+" abc --> 'abc'
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+" abc --> (abc)
+nnoremap <leader>( viw<esc>a)<esc>hbi(<esc>lel
+" abc --> <abc>
+nnoremap <leader>< viw<esc>a><esc>hbi<<esc>lel
+" abc --> {abc}
+nnoremap <leader>{ viw<esc>a}<esc>hbi{<esc>lel
+" abc --> [abc]
+nnoremap <leader>[ viw<esc>a]<esc>hbi[<esc>lel
+
+" c++ .cpp 与 .h 切换
+nmap <silent> <Leader>fs :FSHere<cr>
+
+
+" ale 异步代码检测
+"普通模式下，sp前往上一个错误或警告，sn前往下一个错误或警告
+nmap sp <Plug>(ale_previous_wrap)
+nmap sn <Plug>(ale_next_wrap)
+"<Leader>s触发/关闭语法检查
+nmap <Leader>s :ALEToggle<CR>
+"<Leader>d查看错误或警告的详细信息
+nmap <Leader>d :ALEDetail<CR>
+
+" 搜索
+" 先用root权编译安装ag(ggreer/the_silver_searcher)
+nnoremap <c-f> :CtrlSF<space>
+" ------------------快捷键end----------------
+
+" 输入搜索字符串的同时进行搜索
+set incsearch
+" set noincsearch
+
+" 显示光标当前位置
+set ruler
+" 开启行号显示
+set number
+" 高亮显示当前行/列
+set cursorline
+set cursorcolumn
+
+" Highlighting of class scope is disabled by default.
+let g:cpp_class_scope_highlight = 1
+" Highlighting of member variables is disabled by default.
+let g:cpp_member_variable_highlight = 1
+" Highlighting of class names in declarations is disabled by default.
+let g:cpp_class_decl_highlight = 1
+
+"启用每行超过100列的字符提示（字体变蓝并加下划线），不启用就注释掉
+autocmd BufWinEnter *.h let w:m2=matchadd('Underlined', '\%>' . 100 . 'v.\+', -1)
+autocmd BufWinEnter *.c let w:m2=matchadd('Underlined', '\%>' . 100 . 'v.\+', -1)
+autocmd BufWinEnter *.cpp let w:m2=matchadd('Underlined', '\%>' . 100 . 'v.\+', -1)
+autocmd BufWinEnter *.sh let w:m2=matchadd('Underlined', '\%>' . 100 . 'v.\+', -1)
+autocmd BufWinEnter *.py let w:m2=matchadd('Underlined', '\%>' . 100 . 'v.\+', -1)
+
+" 基于缩进或语法进行代码折叠
+set nofoldenable " 开始折叠
+"set foldmethod=indent
+set foldmethod=syntax " 设置语法折叠
+set foldcolumn=0 " 设置折叠区域的宽度
+setlocal foldlevel=1 " 设置折叠层数为
+
+" 右下角显示正在输入的命令
+set showcmd
+ "允许在有未保存的修改时切换缓冲区
 set hidden
+" 用屏幕的闪烁代替响铃(vim bell提示音)
 set visualbell
 
 " Indent using four spaces
 "set expandtab smarttab
+" tab对应显示的空格宽度
 set tabstop=4
+" 自动缩进列宽度
 set shiftwidth=4
 set softtabstop=4
 
+" 禁止光标闪烁
 set gcr=a:block-blinkon0
 
+"禁止显示滚动条
 set guioptions-=l
 set guioptions-=L
 set guioptions-=r
 set guioptions-=R
+"禁止显示菜单和工具条
 set guioptions-=m
 set guioptions-=T
 
-function! ToggleFullscreen()
-call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
-endf
-
-map <silent> <F2> :call ToggleFullscreen()<CR>
-imap <silent> <F2> <esc>:call ToggleFullscreen()<CR>
-" autocmd VimEnter * call ToggleFullscreen()
-
 " Show the line and column number of the cursor position
 set ruler
-
 " Highlight line under cursor
 set cursorline
 set cursorcolumn
 
-
-" <<<<
-" >>>>
-" MAPPINGS
-
-" ----------------------------------------------------------------------------
-" Basic mappings
-" ----------------------------------------------------------------------------
-  
-" Profile
-iabbrev @@ hmybmny@gmail.com
-iabbrev @b hmybmny.com
-
-" Edit myvimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-
-" Edit
-nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
-
-" Save
-inoremap <C-s>     <C-O>:w<cr>
-nnoremap <C-s>     :w<cr>
-nnoremap <leader>w :w<cr>
-
-" Copy
-vnoremap <Leader>y "+y
-nmap <Leader>p "+p
-
-" Quit
-nnoremap <Leader>q :q<cr>
-nnoremap <Leader>Q :qa!<cr>
-
-" Movement in insert mode
-inoremap <C-h> <C-o>h
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
-inoremap <C-l> <C-o>a
-inoremap <C-^> <C-o><C-^>
-
-" ----------------------------------------------------------------------------
-" Quickfix
-" ----------------------------------------------------------------------------
-
-nnoremap ]q :cnext<cr>zz
-nnoremap [q :cprev<cr>zz
-
-" ----------------------------------------------------------------------------
-" <tab> / <s-tab> | Circular windows navigation
-" ----------------------------------------------------------------------------
-
-nnoremap <tab>   <c-w>w
-nnoremap <S-tab> <c-w>W
-nnoremap <Leader>hw <C-W>h
-nnoremap <Leader>jw <C-W>j
-nnoremap <Leader>kw <C-W>k
-nnoremap <Leader>lw <C-W>l
-
-" ----------------------------------------------------------------------------
-" :CopyRTF
-" ----------------------------------------------------------------------------
-
-function! s:colors(...)
-return filter(map(filter(split(globpath(&rtp, 'colors/*.vim'), "\n"),
-    \                  'v:val !~ "^/usr/"'),
-    \           'fnamemodify(v:val, ":t:r")'),
-    \       '!a:0 || stridx(v:val, a:1) >= 0')
-endfunction
-
-" ----------------------------------------------------------------------------
-" <F8> | Color scheme selector
-" ----------------------------------------------------------------------------
-"  
-
 set background=dark
-set nu
-syntax enable
-let g:molokai_original = 1
+
+"let g:molokai_original = 1
 colorscheme molokai
-
-function! s:rotate_colors()
-  if !exists('s:colors')
-    let s:colors = s:colors()
-  endif
-  let name = remove(s:colors, 0)
-  call add(s:colors, name)
-  set background=dark
-  execute 'colorscheme' name
-  redraw
-  echo name
-endfunction
-
-nnoremap <silent> <F8> :call <SID>rotate_colors()<cr>
-inoremap <silent> <F8> <esc>:call <SID>rotate_colors()<cr>
+"colorscheme solarized
 
 " <<<<
 " >>>>
@@ -225,9 +242,6 @@ let g:indentLine_char = '│'
 " ----------------------------------------------------------------------------
 " tarbar
 " ----------------------------------------------------------------------------
-
-inoremap <F2> <esc>:TagbarToggle<cr>
-nnoremap <F2> :TagbarToggle<cr>
 
 let tagbar_left=1
 let tagbar_width=32
@@ -269,38 +283,21 @@ let g:tagbar_type_cpp = {
 \ }
 
 " ----------------------------------------------------------------------------
-" vim-fswitch
-" ----------------------------------------------------------------------------
-
-nmap <silent> <Leader>fs :FSHere<cr>
-
-" ----------------------------------------------------------------------------
 " vim-protodef
 " ----------------------------------------------------------------------------
 
-let g:protodefprotogetter='~/.vim/plugged/vim-protodef/pullproto.pl'
-let g:disable_protodef_sorting=1
+" let g:protodefprotogetter='~/.vim/plugged/vim-protodef/pullproto.pl'
+" let g:disable_protodef_sorting=1
 
 " ----------------------------------------------------------------------------
-" nerdcommenter
+"  nerdtree
 " ----------------------------------------------------------------------------
-
-" ----------------------------------------------------------------------------
-" nerdtree
-" ----------------------------------------------------------------------------
-
-inoremap <F3> <esc>:NERDTreeToggle<CR>
-nnoremap <F3> :NERDTreeToggle<CR>
 
 let NERDTreeWinSize=30
 let NERDTreeWinPos="right"
 let NERDTreeShowHidden=0
 let NERDTreeMinimalUI=1
 let NERDTreeAutoDeleteBuffer=1
-
-
-nnoremap <Leader>md :InstantMarkdownPreview<CR>
-
 
 " ----------------------------------------------------------------------------
 " vim-fugitive
@@ -318,22 +315,22 @@ set signcolumn=yes
 " ale
 " ----------------------------------------------------------------------------
 
-
-" ----------------------------------------------------------------------------
-" minibufexpl
-" ----------------------------------------------------------------------------
-
-inoremap <F4> <esc>:MBEToggle<cr>
-nnoremap <F4> :MBEToggle<cr>
-
-nnoremap ]b :bnext<cr>
-nnoremap [b :bprev<cr>
+"始终开启标志列
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 0
+"自定义error和warning图标
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+"在vim自带的状态栏中整合ale
+let g:ale_statusline_format = ['>> %d', '-- %d', 'QQ OK']
+"显示Linter名称,出错或警告等相关信息
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 " ----------------------------------------------------------------------------
 " gundo.vim
 " ----------------------------------------------------------------------------
-
-nnoremap <Leader>ud :GundoToggle<CR>
 
 set sessionoptions="blank,globals,localoptions,tabpages,sesdir,folds,help,options,resize,winpos,winsize"
 
@@ -351,8 +348,8 @@ endif
 " ----------------------------------------------------------------------------
 " ctrlsf.vim
 " ----------------------------------------------------------------------------
+let g:ctrlsf_ackprg = 'ag'
 
-nnoremap <c-f> :CtrlSF<CR>
 
 " ----------------------------------------------------------------------------
 " ctrlp.vim
@@ -364,13 +361,13 @@ set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
 set wildignore+=*.swp,*~,._*
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 
-let g:ctrlp_map = '<s-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn|vendor/bundle/*\|vendor/cache/*\|public\|spec)$',
-  \ 'file': '\v\.(exe|so|dll|swp|log|jpg|png|json)$',
-  \ }
+" let g:ctrlp_map = '<s-p>'
+" let g:ctrlp_cmd = 'CtrlP'
+" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+" let g:ctrlp_custom_ignore = {
+"   \ 'dir':  '\v[\/]\.(git|hg|svn|vendor/bundle/*\|vendor/cache/*\|public\|spec)$',
+"   \ 'file': '\v\.(exe|so|dll|swp|log|jpg|png|json)$',
+"   \ }
 
 
 set encoding=utf-8
@@ -497,7 +494,7 @@ function InsertCommentWhenOpen()
 endfunc
 au FileType python :%call InsertCommentWhenOpen()
 let g:python_author = 'xuechengyun'
-let g:python_email  = 'xuechengyunxue@gmail.com' 
+let g:python_email  = 'xuechengyun@baidu.com' 
 
 "shell 注释
 function InsertShellComment()
@@ -513,7 +510,7 @@ function InsertShellComment()
 	normal o
 	call setline('.', '#')
 	normal o
-	call setline('.', '# Copyright to Nobody. All Rights Reserved')
+	call setline('.', '# Copyright (c) 2019 Baidu.com, Inc. All Rights Reserved')
 	normal o
 	call setline('.', '#')
 	normal o
@@ -570,7 +567,7 @@ function InsertShellCommentWhenOpen()
 endfunc
 au FileType sh :%call InsertShellCommentWhenOpen()
 let g:python_author = 'xuechengyun'
-let g:python_email  = 'xuechengyunxue@gmail.com' 
+let g:python_email  = 'xuechengyun@baidu.com' 
 
 set ttyfast
 set lazyredraw
@@ -579,7 +576,7 @@ set lazyredraw
 "let g:jedi#goto_command = "<leader>d"
 "let g:jedi#goto_assignments_command = "<leader>g"
 "let g:jedi#goto_definitions_command = ""
-let g:jedi#documentation_command = "K"
+"let g:jedi#documentation_command = "K"
 "let g:jedi#usages_command = "<leader>n"
 let g:jedi#completions_command = "<leader><leader>"
 let g:jedi#rename_command = "<leader>r"
@@ -590,19 +587,7 @@ nmap <silent> <C-_> <Plug>(pyd)
 set ttyfast
 set lazyredraw
 
-" jedi
-"let g:jedi#goto_command = "<leader>d"
-"let g:jedi#goto_assignments_command = "<leader>g"
-"let g:jedi#goto_definitions_command = ""
-let g:jedi#documentation_command = "K"
-"let g:jedi#usages_command = "<leader>n"
-let g:jedi#completions_command = "<leader><leader>"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#popup_on_dot = 0
-let g:SuperTabDefaultCompletionType="context"
-let g:SuperTabDefaultCompletionType="<C-X><C-O>"
-nmap <silent> <C-_> <Plug>(pyd)
-
+" autocmd FileType c,cpp set shiftwidth=4 | set expandtab
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
