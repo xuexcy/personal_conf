@@ -31,6 +31,9 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'heavenshell/vim-pydocstring'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 let g:neocomplete#enable_at_startup = 1
 
 " Browsing
@@ -101,9 +104,9 @@ nnoremap <Leader>lw <C-W>l
 " 跳转至左方的窗口
 nnoremap <Leader>hw <C-W>h
 " 跳转至上方的子窗口
-nnoremap <Leader>kw <C-W>k
+noremap <Leader>kw <C-W>k
 " 跳转至下方的子窗口
-nnoremap <Leader>jw <C-W>j
+ nnoremap <Leader>jw <C-W>j
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
 
@@ -211,7 +214,7 @@ set cursorcolumn
 
 set background=dark
 
-"let g:molokai_original = 1
+let g:molokai_original = 1
 colorscheme molokai
 "colorscheme solarized
 
@@ -242,7 +245,7 @@ let g:indentLine_char = '│'
 " ----------------------------------------------------------------------------
 " tarbar
 " ----------------------------------------------------------------------------
-
+" set tags+=
 let tagbar_left=1
 let tagbar_width=32
 let g:tagbar_sort = 0
@@ -418,6 +421,55 @@ let g:pymode_syntax_all = 1
 let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
+" jedi
+let g:jedi#goto_command = "<leader>d"
+let g:jedi#goto_assignments_command = "<leader>g"
+"let g:jedi#goto_definitions_command = ""
+"let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<leader><leader>"
+let g:jedi#rename_command = "<leader>r"
+let g:jedi#popup_on_dot = 0
+let g:SuperTabDefaultCompletionType="<C-X><C-O>"
+nmap <silent> <C-_> <Plug>(pyd)
+set ttyfast
+set lazyredraw
+
+" ----------------------------------------------------------------------------
+" nerdcommenter
+" ----------------------------------------------------------------------------
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not
+let g:NERDToggleCheckAllLines = 1
+" autocmd FileType c,cpp set shiftwidth=4 | set expandtab
+
+" ----------------------------------------------------------------------------
+" ultisnips
+" ----------------------------------------------------------------------------
+"
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
+let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
 "Python 注释
 function InsertPythonComment()
     exe 'normal'.1.'G'
@@ -484,8 +536,16 @@ function InsertPythonComment()
 	normal o
 	call setline('.', '')
 	normal o
+	call setline('.', 'def main():')
+	normal o
+	call setline('.', '    pass')
+	normal o
 	call setline('.', '')
-    call cursor(30, 0)
+	normal o
+	call setline('.', "if __name__ == '__main__':")
+	normal o
+	call setline('.', '    main()')
+    call cursor(31, 0)
 endfunction
 function InsertCommentWhenOpen()
     if a:lastline == 1 && !getline('.')
@@ -494,7 +554,7 @@ function InsertCommentWhenOpen()
 endfunc
 au FileType python :%call InsertCommentWhenOpen()
 let g:python_author = 'xuechengyun'
-let g:python_email  = 'xuechengyun@baidu.com' 
+let g:python_email  = 'xuechengyunxue@gmail.com' 
 
 "shell 注释
 function InsertShellComment()
@@ -567,27 +627,12 @@ function InsertShellCommentWhenOpen()
 endfunc
 au FileType sh :%call InsertShellCommentWhenOpen()
 let g:python_author = 'xuechengyun'
-let g:python_email  = 'xuechengyun@baidu.com' 
+let g:python_email  = 'xuechengyunxue@gmail.com' 
 
 set ttyfast
 set lazyredraw
 
-" jedi
-"let g:jedi#goto_command = "<leader>d"
-"let g:jedi#goto_assignments_command = "<leader>g"
-"let g:jedi#goto_definitions_command = ""
-"let g:jedi#documentation_command = "K"
-"let g:jedi#usages_command = "<leader>n"
-let g:jedi#completions_command = "<leader><leader>"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#popup_on_dot = 0
-let g:SuperTabDefaultCompletionType="context"
-let g:SuperTabDefaultCompletionType="<C-X><C-O>"
-nmap <silent> <C-_> <Plug>(pyd)
-set ttyfast
-set lazyredraw
-
-" autocmd FileType c,cpp set shiftwidth=4 | set expandtab
+autocmd FileType c,cpp,sh set shiftwidth=4 | set expandtab
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
