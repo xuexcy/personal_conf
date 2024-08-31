@@ -9,6 +9,7 @@ alias vi="vim"
 alias v="vim"
 
 # git
+alias gs="git status"
 alias ga="git add"
 alias gp="git push"
 alias gcm="git commit -m"
