@@ -486,7 +486,7 @@ function InsertPythonComment()
 	normal o
 	call setline('.', '#')
 	normal o
-	call setline('.', '# Copyright (c) 2019 Baidu.com, Inc. All Rights Reserved')
+	call setline('.', '# Copyright (c) 20xx xx.com, Inc. All Rights Reserved')
 	normal o
 	call setline('.', '#')
 	normal o
@@ -570,7 +570,7 @@ function InsertShellComment()
 	normal o
 	call setline('.', '#')
 	normal o
-	call setline('.', '# Copyright (c) 2019 Baidu.com, Inc. All Rights Reserved')
+	call setline('.', '# Copyright (c) 20xx xx.com, Inc. All Rights Reserved')
 	normal o
 	call setline('.', '#')
 	normal o

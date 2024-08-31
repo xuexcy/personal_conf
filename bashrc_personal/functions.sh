@@ -1,23 +1,3 @@
-#!/bin/bash
-
-export PS1="[\t \u@\H \W]\$ "
-alias tailf="tail -f"
-alias l="ls"
-alias ch="cd ~"
-alias ll="ls -l"
-alias vi="vim"
-alias v="vim"
-alias tmux="tmux -2 -L xcy"
-alias t="tmux"
-alias ta="tmux attach-session -t"
-alias tn="tmux new -s"
-alias wcl="wc -l"
-
-export TERM=xterm-256color
-export TMOUT=0
-export LANG=zh_CN.UTF-8
-[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
-
 getftp(){
     file_name=$1
     curdir=`pwd`

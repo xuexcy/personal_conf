@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# export PS1="[\t \u@\H \W]\$ "
+export TERM=xterm-256color
+export TMOUT=0
+export LANG=zh_CN.UTF-8
+
+
+[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
+
