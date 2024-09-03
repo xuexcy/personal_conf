@@ -1,9 +1,11 @@
 #!/bin/bash
+CUR_DIR=$(cd `dirname $0`; pwd)
 
-cp ./vimrc ~/.vimrc
+mv ~/.vimrc ~/.vimrc.bak.`date '+%Y%m%d_%H%M%S'`
+ln -s ${CUR_DIR}/vimrc ~/.vimrc 
 
-mkdir -p ~/.bashrc_personal
-cp -r bashrc_personal/* ~/.bashrc_personal
+rm -rf ~/.bashrc_personal
+ln -s ${CUR_DIR}/bashrc_personal ~/.bashrc_personal
 
 echo_to_rc() {
     path=$1

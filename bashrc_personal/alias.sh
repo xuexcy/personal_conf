@@ -9,9 +9,10 @@ alias vi="vim"
 alias v="vim"
 
 # git
-alias gs="git status"
 alias ga="git add"
+alias gd="git diff"
 alias gp="git push"
+alias gs="git status"
 alias gcm="git commit -m"
 
 # tmux
