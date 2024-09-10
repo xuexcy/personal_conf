@@ -13,7 +13,7 @@ remove() {
     # ignore any arguments
     if [[ "$p" = -* ]]; then :
     else
-      local dst=${path##*/}
+      local dst=${p##*/}
       # append the time if necessary
       while [ -e ~/.Trash/"$dst" ]; do
         dst="$dst "$(date +%H-%M-%S)
