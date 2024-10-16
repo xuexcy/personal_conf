@@ -26,7 +26,7 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 
 " Edit
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'python-mode/python-mode'
+" Plugin 'python-mode/python-mode'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'heavenshell/vim-pydocstring'
@@ -478,7 +478,7 @@ function InsertPythonComment()
         return
     endif
     normal O
-    call setline('.', '#!/usr/bin/env python')
+    call setline('.', '#!/usr/bin/env python3')
     normal o
     call setline('.', '# -*- coding:utf-8 -*-')
 	normal o
@@ -486,7 +486,7 @@ function InsertPythonComment()
 	normal o
 	call setline('.', '#')
 	normal o
-	call setline('.', '# Copyright (c) 20xx xx.com, Inc. All Rights Reserved')
+	call setline('.', '# Copyright (c) 2024 xx.com, Inc. All Rights Reserved')
 	normal o
 	call setline('.', '#')
 	normal o
@@ -505,10 +505,6 @@ function InsertPythonComment()
     call setline('.', '"""')
     normal o
 	call setline('.', '')
-	normal o
-	call setline('.', 'from __future__ import unicode_literals')
-	normal o
-	call setline('.', 'from __future__ import print_function')
 	normal o
 	call setline('.', 'import sys')
 	normal o
@@ -570,7 +566,7 @@ function InsertShellComment()
 	normal o
 	call setline('.', '#')
 	normal o
-	call setline('.', '# Copyright (c) 20xx xx.com, Inc. All Rights Reserved')
+	call setline('.', '# Copyright (c) 2024 xx.com, Inc. All Rights Reserved')
 	normal o
 	call setline('.', '#')
 	normal o

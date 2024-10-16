@@ -1,8 +1,11 @@
 # linux
 alias l="ls"
+alias ls="ls -G"
 alias ll='ls -l --color=auto'
 alias tailf="tail -f"
 alias wcl="wc -l"
+# cd ..(parent)
+alias cdp="cd .." 
 
 # vim
 alias vi="vim"

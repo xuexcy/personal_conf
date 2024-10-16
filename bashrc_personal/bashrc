@@ -4,7 +4,6 @@
 export TERM=xterm-256color
 export TMOUT=0
 export LANG=zh_CN.UTF-8
-
-
+export CLICOLOR=1
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
 
