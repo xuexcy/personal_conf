@@ -498,7 +498,7 @@ function InsertPythonComment()
     normal o
     call setline('.', 'E-mail  :   '.g:python_email)
     normal o
-    call setline('.', 'Date    :   '.strftime("%y/%m/%d %H:%M:%S"))
+    call setline('.', 'Date    :   '.strftime("%Y/%m/%d %H:%M:%S"))
     normal o
     call setline('.', 'Desc    :')
     normal o
@@ -576,7 +576,7 @@ function InsertShellComment()
     normal o
     call setline('.', '# E-mail  :   '.g:python_email)
     normal o
-    call setline('.', '# Date    :   '.strftime("%y/%m/%d %H:%M:%S"))
+    call setline('.', '# Date    :   '.strftime("%Y/%m/%d %H:%M:%S"))
     normal o
     call setline('.', '# Desc    :')
     normal o

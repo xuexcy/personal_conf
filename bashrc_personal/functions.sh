@@ -7,7 +7,7 @@ getftp(){
     echo ftp://${host}${curdir}/$file_name
 }
 
-remove() {
+move_to_trash() {
   local p
   for p in "$@"; do
     # ignore any arguments
@@ -22,4 +22,4 @@ remove() {
     fi
   done
 }
-alias rm=remove
+alias rm=move_to_trash
