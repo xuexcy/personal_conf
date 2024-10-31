@@ -476,9 +476,10 @@ function InsertTemplate(tmpl_file)
 		return
 	end
     exe 'normal'.1.'G'
-    "if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
-    "    return
-	"end
+	let line = getline('.')
+    if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
+        return
+	end
     exe "0read ". g:vim_template_dir . a:tmpl_file
 	let dict = {}
 	let dict["vim_template_author_name"] = g:vim_template_author_name
