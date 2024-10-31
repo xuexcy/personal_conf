@@ -1,11 +1,20 @@
 #!/bin/bash
 CUR_DIR=$(cd `dirname $0`; pwd)
 
-mv ~/.vimrc ~/.vimrc.bak.`date '+%Y%m%d_%H%M%S'`
-ln -s ${CUR_DIR}/vimrc ~/.vimrc 
+from=${CUR_DIR}/vim/vimrc
+to=~/.vimrc
+mv $to ${to}.bak.`date '+%Y%m%d_%H%M%S'`
+ln -s $from $to
 
-rm -rf ~/.bashrc_personal
-ln -s ${CUR_DIR}/bashrc_personal ~/.bashrc_personal
+from=${CUR_DIR}/bashrc_personal
+to=~/.bashrc_personal
+rm -rf $to
+ln -s $from $to
+
+from=${CUR_DIR}/vim/xuechengyun_file_template
+to=~/.vim/xuechengyun_file_template
+rm -rf $to
+ln -s $from $to
 
 echo_to_rc() {
     path=$1

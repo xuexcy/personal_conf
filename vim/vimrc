@@ -470,160 +470,55 @@ let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-"Python 注释
-function InsertPythonComment()
+"""""""""""""""""""""""""" START 插入文件模板""""""""""""""""""""""""""
+function InsertTemplate(tmpl_file)
+	if !(a:lastline == 1 && !getline('.'))
+		return
+	end
     exe 'normal'.1.'G'
-    let line = getline('.')
-    if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
-        return
-    endif
-    normal O
-    call setline('.', '#!/usr/bin/env python3')
-    normal o
-    call setline('.', '# -*- coding:utf-8 -*-')
-	normal o
-	call setline('.', '########################################################################')
-	normal o
-	call setline('.', '#')
-	normal o
-	call setline('.', '# Copyright (c) 2024 xx.com, Inc. All Rights Reserved')
-	normal o
-	call setline('.', '#')
-	normal o
-	call setline('.', '########################################################################')
-    normal o
-    call setline('.', '"""')
-    normal o
-    call setline('.', 'Author  :   '.g:python_author)
-    normal o
-    call setline('.', 'E-mail  :   '.g:python_email)
-    normal o
-    call setline('.', 'Date    :   '.strftime("%Y/%m/%d %H:%M:%S"))
-    normal o
-    call setline('.', 'Desc    :')
-    normal o
-    call setline('.', '"""')
-    normal o
-	call setline('.', '')
-	normal o
-	call setline('.', 'import sys')
-	normal o
-	call setline('.', 'import os')
-	normal o
-	call setline('.', 'import logging')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', 'CUR_DIR = os.path.dirname(os.path.abspath(__file__))')
-	normal o
-	call setline('.', "LOG_FORMAT = '''[%(levelname)s] [%(asctime)s] [%(threadName)s] [%(name)s] '''")
-	normal o
-	call setline('.', "LOG_FORMAT += '''[%(filename)s:%(funcName)s:%(lineno)d]: %(message)s'''")
-	normal o
-	call setline('.', 'logging.basicConfig(')
-	normal o
-	call setline('.', '    stream=sys.stderr,')
-	normal o
-	call setline('.', '    level=logging.INFO,')
-	normal o
-	call setline('.', "    format=LOG_FORMAT")
-	normal o
-	call setline('.', ')')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', 'def main():')
-	normal o
-	call setline('.', '    pass')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', "if __name__ == '__main__':")
-	normal o
-	call setline('.', '    main()')
-    call cursor(31, 0)
+    "if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
+    "    return
+	"end
+    exe "0read ". g:vim_template_dir . a:tmpl_file
+	let dict = {}
+	let dict["vim_template_author_name"] = g:vim_template_author_name
+	let dict["vim_template_author_email"] = g:vim_template_author_email
+	let dict["vim_template_date"]= strftime("%Y/%m/%d %H:%M:%S")
+	let dict["vim_template_year"] = strftime("%Y")
+	exe '%s/<<\([^>]*\)>>/\=dict[submatch(1)]/g'
+    set nomodified
+    normal G
 endfunction
-function InsertCommentWhenOpen()
-    if a:lastline == 1 && !getline('.')
-        call InsertPythonComment()
-    end
-endfunc
-au FileType python :%call InsertCommentWhenOpen()
-let g:python_author = 'xuechengyun'
-let g:python_email  = 'xuechengyunxue@gmail.com' 
 
-"shell 注释
-function InsertShellComment()
-    exe 'normal'.1.'G'
-    let line = getline('.')
-    if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
-        return
-    endif
-    normal O
-    call setline('.', '#!/bin/bash')
-    normal o
-	call setline('.', '########################################################################')
-	normal o
-	call setline('.', '#')
-	normal o
-	call setline('.', '# Copyright (c) 2024 xx.com, Inc. All Rights Reserved')
-	normal o
-	call setline('.', '#')
-	normal o
-	call setline('.', '########################################################################')
-    normal o
-    call setline('.', '# Author  :   '.g:python_author)
-    normal o
-    call setline('.', '# E-mail  :   '.g:python_email)
-    normal o
-    call setline('.', '# Date    :   '.strftime("%Y/%m/%d %H:%M:%S"))
-    normal o
-    call setline('.', '# Desc    :')
-    normal o
-	call setline('.', '########################################################################')
-    normal o
-	call setline('.', '')
-	normal o
-    call setline('.', '# set -x')
-	normal o
-	call setline('.', 'CUR_DIR=$(cd `dirname $0`; pwd)')
-	normal o
-	call setline('.', 'cd ${CUR_DIR}')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', '')
-	normal o
-	call setline('.', 'cd -')
-	normal o
+function InsertShellTemplate(tmpl_file)
+	call InsertTemplate(a:tmpl_file)
     call cursor(17, 0)
 endfunction
-function InsertShellCommentWhenOpen()
-    if a:lastline == 1 && !getline('.')
-        call InsertShellComment()
-    end
-endfunc
-au FileType sh :%call InsertShellCommentWhenOpen()
-let g:python_author = 'xuechengyun'
-let g:python_email  = 'xuechengyunxue@gmail.com' 
+
+function InsertPythonTemplate(tmpl_file)
+	call InsertTemplate(a:tmpl_file)
+    call cursor(31, 0)
+endfunction
+
+function InsertCppHeaderTemplate(tmpl_file)
+	call InsertTemplate(a:tmpl_file)
+    call cursor(15, 0)
+endfunction
+
+function InsertCppTemplate(tmpl_file)
+	call InsertTemplate(a:tmpl_file)
+    call cursor(14, 0)
+endfunction
+
+let g:vim_template_author_name = 'xuechengyun'
+let g:vim_template_author_email = 'xuechengyun@gmail.com'
+
+let g:vim_template_dir = "~/.vim/xuechengyun_file_template/"
+autocmd BufNewFile *.h call InsertCppHeaderTemplate("cpp_template.h")
+autocmd BufNewFile *.cc,*.cpp call InsertCppTemplate("cpp_template.cpp")
+au FileType python :%call InsertPythonTemplate("python3_template.py")
+au FileType sh :%call InsertShellTemplate("shell_template.sh")
+""""""""""""""""""" END 插入文件模板""""""""""""""""""""""""""
 
 set ttyfast
 set lazyredraw
