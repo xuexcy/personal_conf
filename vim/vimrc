@@ -472,14 +472,15 @@ let g:UltiSnipsEditSplit="vertical"
 
 """""""""""""""""""""""""" START 插入文件模板""""""""""""""""""""""""""
 function InsertTemplate(tmpl_file)
-	if !(a:lastline == 1 && !getline('.'))
+	" line number > 1 or not empty line
+	normal G
+	if line('.') > 1 || getline('.') !~ '^\s*$'
 		return
-	end
+	endif
     exe 'normal'.1.'G'
-	let line = getline('.')
-    if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
-        return
-	end
+    "if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
+    "    return
+	"end
     exe "0read ". g:vim_template_dir . a:tmpl_file
 	let dict = {}
 	let dict["vim_template_author_name"] = g:vim_template_author_name
@@ -515,8 +516,8 @@ let g:vim_template_author_name = 'xuechengyun'
 let g:vim_template_author_email = 'xuechengyun@gmail.com'
 
 let g:vim_template_dir = "~/.vim/xuechengyun_file_template/"
-autocmd BufNewFile *.h call InsertCppHeaderTemplate("cpp_template.h")
-autocmd BufNewFile *.cc,*.cpp call InsertCppTemplate("cpp_template.cpp")
+autocmd BufNewFile,BufRead *.h call InsertCppHeaderTemplate("cpp_template.h")
+autocmd BufNewFile,BufRead *.cc,*.cpp call InsertCppTemplate("cpp_template.cpp")
 au FileType python :%call InsertPythonTemplate("python3_template.py")
 au FileType sh :%call InsertShellTemplate("shell_template.sh")
 """"""""""""""""""" END 插入文件模板""""""""""""""""""""""""""
